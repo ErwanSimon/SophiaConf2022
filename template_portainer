@@ -1,0 +1,29 @@
+services:
+  vnc_viewer:
+    image: dorowu/ubuntu-desktop-lxde-vnc
+    container_name: 'vnc_viewer'
+    links:
+      - ldap
+    volumes:
+      - /dev/shm:/dev/shm
+    ports:
+      - "6080:80"
+      - "5900:5900"
+    environment:
+      - VNC_PASSWORD=mypassword
+      - USER=doro
+  ldap:
+    image: sealeo/openldap:latest
+    volumes:
+      - db_data:/var/lib/ldap
+    ports:
+      - "389:389"
+      - "636:636"      
+    environment:
+      - LDAP_PASSWORD=iggypop
+      - LDAP_ORGANISATION='example.com'
+      - LDAP_DOMAIN=example.com
+      - LDAP_SERVERNAME=Sealeo
+volumes:
+  db_data:
+      
